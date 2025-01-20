@@ -1,0 +1,338 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <nav>
+        <a href="#">Home</a>
+        <a class="boutta" href="{% url 'about' %}">About</a>
+        <a href="#">Events</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <h1>Weekly Work Schedule</h1>
+
+    <!-- Time Zone Selector -->
+    <div>
+        <label for="timezone-select">Select Time Zone:</label>
+        <select id="timezone-select">
+            <option value="GMT-4" data-offset="-4">Default (GMT-4)</option>
+            <option value="Africa/Blantyre" data-offset="+2">Lilongwe (GMT+2)</option>
+            <option value="Asia/Dubai" data-offset="+4">Dubai (GMT+4)</option>
+        </select>
+    </div>
+
+    <table id="schedule">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour in hours %}
+                <tr>
+                    <td id="time-{{ hour }}">{{ hour }}</td>
+                    <td class="cell" id="Mon-{{ hour }}"></td>
+                    <td class="cell" id="Tue-{{ hour }}"></td>
+                    <td class="cell" id="Wed-{{ hour }}"></td>
+                    <td class="cell" id="Thu-{{ hour }}"></td>
+                    <td class="cell" id="Fri-{{ hour }}"></td>
+                    <td class="cell" id="Sat-{{ hour }}"></td>
+                    <td class="cell" id="Sun-{{ hour }}"></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Add Event</h2>
+    <form id="event-form">
+        <input type="text" id="event-name" placeholder="Event Name" required>
+        <select id="event-day">
+            <option value="Mon">Mon</option>
+            <option value="Tue">Tue</option>
+            <option value="Wed">Wed</option>
+            <option value="Thu">Thu</option>
+            <option value="Fri">Fri</option>
+            <option value="Sat">Sat</option>
+            <option value="Sun">Sun</option>
+        </select>
+        <input type="number" id="event-start-hour" placeholder="Start Hour" min="0" max="23" required>
+        <input type="number" id="event-duration" placeholder="Duration" min="1" max="24" required>
+        <button type="submit">Add Event</button>
+    </form>
+
+    <div id="context-menu" class="context-menu" style="display: none;">
+        <div id="delete-event" class="context-menu-item">Delete Event</div>
+    </div>
+
+    <div id="comments-section">
+        <h2>Comments</h2>
+        <div id="comment-form">
+            <form class="comform" method="POST">
+                {% csrf_token %}
+                <label for="id_nickname">Nickname:</label>
+                <input type="text" id="id_nickname" name="nickname" placeholder="Your nickname" required>
+                <label for="id_comment">Comment:</label>
+                <textarea class="comtext" id="id_comment" name="comment" placeholder="Your comment" rows="2" required></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+        <div id="comment-list">
+            {% for comment in comments %}
+                <div class="comment">
+                    <strong>{{ comment.nickname }}</strong> - {{ comment.created_at|date:"F j, Y, g:i a" }}<br>
+                    {{ comment.comment }}
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section links">
+            <ul>
+                <a class="boutta" href="{% url 'about' %}"><h2>Click here</h2></a>
+                <img class="logo" src="{% static 'images/Foreign.jpg' %}" alt="logo">
+            </ul>
+        </div>
+
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 ElshaddaiMhango | All rights reserved.</p>
+    </div>
+</footer>
+
+
+
+    <script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const timezoneSelect = document.getElementById('timezone-select');
+    const timeCells = document.querySelectorAll('td[id^="time-"]');
+    const projectTimeZoneOffset = -4;
+
+    let events = await fetchEvents();
+
+    function updateHoursDisplay(timezoneOffset) {
+        const localOffset = parseInt(timezoneOffset);
+        const offsetDifference = localOffset - projectTimeZoneOffset;
+        timeCells.forEach(cell => {
+            const hour = parseInt(cell.id.split('-')[1]);
+            const localHour = (hour + offsetDifference + 24) % 24;
+            cell.textContent = localHour < 10 ? `0${localHour}:00` : `${localHour}:00`;
+        });
+    }
+
+    timezoneSelect.addEventListener('change', () => {
+        const selectedOffset = timezoneSelect.options[timezoneSelect.selectedIndex].dataset.offset;
+        updateHoursDisplay(selectedOffset);
+    });
+
+    async function fetchEvents() {
+        const response = await fetch('/api/events/');
+        return response.json();
+    }
+
+    function displayEvents() {
+        events.forEach(event => {
+            const startHour = event.start_hour;
+            const endHour = (startHour + event.duration) % 24;
+            const dayCell = document.getElementById(`${event.day}-${startHour}`);
+
+            dayCell.innerText = event.name;
+            dayCell.setAttribute('rowspan', event.duration);
+            dayCell.classList.add('event');
+            dayCell.style.backgroundColor = colorMap[event.name] || '#bdc3c7';
+            dayCell.setAttribute('data-event-id', event.id);
+
+            for (let i = 1; i < event.duration; i++) {
+                const nextCell = document.getElementById(`${event.day}-${(startHour + i) % 24}`);
+                if (nextCell) {
+                    nextCell.style.display = 'none';
+                }
+            }
+
+            dayCell.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                selectedEvent = event;
+                showContextMenu(e.pageX, e.pageY);
+            });
+        });
+
+        // Show the alert once, after events are displayed
+        showAlert();
+    }
+
+    function showAlert() {
+        const now = new Date();
+        const currentDay = now.toLocaleDateString('en-US', { weekday: 'short' });
+        const currentHour = now.getHours();
+
+        const selectedOffset = parseInt(timezoneSelect.options[timezoneSelect.selectedIndex].dataset.offset);
+        const offsetDifference = selectedOffset - projectTimeZoneOffset;
+        const adjustedHour = (currentHour + offsetDifference + 24) % 24;
+
+        const currentEvent = events.find(event => {
+            const eventEndHour = (event.start_hour + event.duration) % 24;
+            return event.day === currentDay &&
+                adjustedHour >= event.start_hour && adjustedHour < eventEndHour;
+        });
+
+        if (currentEvent) {
+            alert(`Elshaddai is currently at ${currentEvent.name}`);
+        } else {
+            alert("Elshaddai is currently not at any event");
+        }
+    }
+
+    function showContextMenu(x, y) {
+        const menu = document.getElementById('context-menu');
+        menu.style.left = `${x}px`;
+        menu.style.top = `${y}px`;
+        menu.style.display = 'block';
+
+        document.removeEventListener('click', hideContextMenu);
+        document.addEventListener('click', hideContextMenu);
+
+        const deleteEventButton = document.getElementById('delete-event');
+        deleteEventButton.removeEventListener('click', handleDeleteEvent);
+        deleteEventButton.addEventListener('click', handleDeleteEvent);
+    }
+
+    function hideContextMenu() {
+        const menu = document.getElementById('context-menu');
+        menu.style.display = 'none';
+        document.removeEventListener('click', hideContextMenu);
+    }
+
+    async function handleDeleteEvent() {
+        if (!selectedEvent || !selectedEvent.id) {
+            alert('No event selected for deletion.');
+            return;
+        }
+
+        const password = prompt('Enter the password to delete this event:');
+        const correctPassword = 'e';
+
+        if (password !== correctPassword) {
+            alert('Incorrect password. Event not deleted.');
+            return;
+        }
+
+        try {
+            const success = await deleteEvent(selectedEvent.id);
+            if (success) {
+                alert('Event deleted successfully.');
+                removeEventFromDOM(selectedEvent.id);
+                updateHoursDisplay(timezoneSelect.value);
+            } else {
+                alert('Only admin Elshaddai can delete an event');
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            alert('An error occurred while deleting the event.');
+        } finally {
+            hideContextMenu();
+        }
+    }
+
+    async function deleteEvent(eventId) {
+        try {
+            const response = await fetch(`/api/events/${eventId}/`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            return response.ok;
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            return false;
+        }
+    }
+
+    function removeEventFromDOM(eventId) {
+        const eventCell = document.querySelector(`td[data-event-id="${eventId}"]`);
+        if (eventCell) {
+            eventCell.innerText = '';
+            eventCell.style.backgroundColor = '';
+            eventCell.removeAttribute('data-event-id');
+        }
+    }
+
+    const colorMap = {
+        'Computer Club/ITC': '#69b6d6',
+        'ITC': '#cf8ed1',
+        'Church': '#27ae60',
+        'Tutoring': '#e74c3c',
+        'Sleep': 'rgba(37, 37, 1, 0.418)',
+
+    };
+
+    function setupEventListeners() {
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => {
+            cell.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                selectedEvent = getEventFromCell(cell);
+                showContextMenu(e.pageX, e.pageY);
+            });
+        });
+    }
+
+    function getEventFromCell(cell) {
+        const eventId = cell.getAttribute('data-event-id');
+        return events.find(event => event.id === eventId);
+    }
+
+    setupEventListeners();
+
+    document.getElementById('event-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const password = prompt('Enter the password to add an event:');
+        const correctPassword = 'e';
+
+        if (password !== correctPassword) {
+            alert('Incorrect password. Event not added.');
+            return;
+        }
+
+        const name = document.getElementById('event-name').value;
+        const day = document.getElementById('event-day').value;
+        const startHour = parseInt(document.getElementById('event-start-hour').value);
+        const duration = parseInt(document.getElementById('event-duration').value);
+
+        const eventData = { name, day, start_hour: startHour, duration };
+        await addEvent(eventData);
+        location.reload();
+    });
+
+    async function addEvent(eventData) {
+        const response = await fetch('/api/events/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(eventData),
+        });
+        return response.json();
+    }
+
+    updateHoursDisplay(projectTimeZoneOffset);
+    displayEvents();
+});
+
+    </script>
+
+</body>
+</html>

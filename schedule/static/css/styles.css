@@ -1,0 +1,551 @@
+body {
+    margin: 0; /* Remove default margin */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align content to the top */
+    min-height: 100vh; /* Ensure body height is at least viewport height */
+    padding: 0; /* Remove default padding */
+    font-family: Arial, sans-serif;
+    text-align: center; /* Center text in the body */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer Styling */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 0;
+    font-size: 0.9em;
+    width: 100%; /* Ensure footer spans full width */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto; /* Center the footer content */
+    padding: 0 20px; /* Padding inside the container */
+}
+
+.logo {
+        width: 150px;
+        border-radius: 50%;
+        transition: transform 0.3s;
+        grid-column: 1 / 2; /* Align to the first column */
+        animation: spin 10s linear infinite;
+
+    }
+
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.footer-section {
+    flex: 1;
+    margin: 20px;
+    min-width: 220px;
+}
+
+.footer-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    position: relative;
+    color: #69b6d6;
+}
+
+
+.footer-section p {
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #69b6d6;
+}
+
+.social-icons a {
+    display: inline-block;
+    color: white;
+    font-size: 1.2em;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #69b6d6;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px;
+    background-color: #222;
+    font-size: 0.8em;
+    color: #aaa;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        margin: 10px 0;
+
+    }
+
+    .logo {
+        width: 120px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+nav {
+    width: 100%;
+    background-color: #333;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: inline-block;
+}
+
+nav a:hover {
+    background-color: #575757;
+}
+
+table {
+    border-collapse: collapse;
+    justify-self: center;
+    align-self: center;
+    width: 80%; /* Table width */
+    table-layout: fixed; /* Fix column widths */
+}
+
+th, td {
+    border-bottom: 1px solid #ac1414;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 12.5%; /* Equal width for each column */
+}
+
+.cell {
+    height: 5px;
+    border-right: 1px solid #00000060;
+    border-left: 1px solid #00000060;
+}
+
+h1 {
+    margin: 20px 0; /* Adjust margin to ensure heading is visible */
+    font-size: 2em; /* Increase the font size if needed */
+    color: #0;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr {
+    border-bottom: 1px solid #a11b1b; /* Horizontal lines */
+}
+
+tr:hover {
+    background-color: #ff5e5e54; /* Highlight on hover */
+}
+
+/* Event cell styling */
+.cell.event {
+    padding: 5px; /* Add padding for spacing */
+    margin: 2px; /* Add margin for spacing */
+    transition: transform 0.2s;
+    background-color: rgb(69, 179, 216);
+    border-radius: 10px; /* Add border radius */
+    position: relative; /* Position relative for layering */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+
+.cell.event:hover {
+    transform: scale(1.05);
+}
+
+/* Add event form styling */
+form {
+    width: 80%;
+    background: #5c5c5c;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.418);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
+}
+
+form:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus {
+    border: 1px solid #69b6d6;
+    box-shadow: 0 0 5px rgba(105, 182, 214, 0.5);
+    outline: none;
+}
+
+button {
+    background-color: #69b6d6;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #5a9bc0;
+    transform: translateY(-2px);
+}
+
+.context-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 5px;
+    padding: 5px;
+    animation: fadeIn 0.3s;
+}
+
+.context-menu-item {
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.context-menu-item:hover {
+    background-color: #f2f2f2;
+}
+
+/* Comment section */
+#comments-section {
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #f9f9f9; /* Lighter background color */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comform {
+    width: 95%;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comment {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.comment:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px; /* Reduced margin */
+    padding-bottom: 8px; /* Added padding */
+    border-bottom: 1px solid #eee; /* Separator line */
+}
+
+.comment-header .author {
+    font-weight: bold;
+    color: rgb(98, 0, 255);
+}
+
+.comment-header .timestamp {
+    color: #999;
+    font-size: 0.85em; /* Slightly smaller font size */
+}
+
+.comment-body {
+    margin-bottom: 10px;
+    line-height: 1.6; /* Increased line height */
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.comment-actions a {
+    margin-left: 12px; /* Increased spacing */
+    color: #69b6d6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.comment-actions a:hover {
+    color: #5a9bc0;
+}
+
+.comment-form {
+    width: 20%;
+    margin-top: 20px;
+}
+
+.comment-form form {
+    width: 100%; /* Adjusted to be 100% of the parent width */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center items horizontally */
+}
+
+.comment-form .comment-input[type="text"],
+.comment-form textarea {
+    flex: 1;
+    padding: 12px;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+    font-size: 0.95em;
+}
+
+.comment-form textarea {
+    flex: 3;
+    resize: vertical;
+    min-height: 80px;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+    font-size: 0.95em;
+}
+
+.comment-form button[type="submit"] {
+    flex: 1;
+    background-color: #69b6d6;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 0.95em; /* Slightly larger font size */
+}
+
+.comment-form button[type="submit"]:hover {
+    background-color: #5a9bc0;
+    transform: translateY(-2px);
+}
+
+.reply-form {
+    margin-top: 15px; /* Adjusted margin */
+    padding-left: 20px;
+    border-left: 2px solid #69b6d6;
+}
+
+.reply-form textarea {
+    width: calc(100% - 20px);
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 60px; /* Minimum height */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.reply-actions {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.reply-actions a {
+    color: #69b6d6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.reply-actions a:hover {
+    color: #5a9bc0;
+}
+
+.boutta {
+    color: red;
+}
+
+
+
+/* Responsive adjustments for smaller devices */
+@media (max-width: 768px) {
+    table {
+        width: 100%; /* Table width */
+        padding: 0; /* Remove padding for medium screens */
+    }
+
+
+    body {
+        padding: 0; /* Remove padding on smaller screens */
+    }
+    h1, h2 {
+        font-size: 24px;
+    }
+    th, td {
+        font-size: 9px;
+    }
+    form, #comments-section {
+        width: 100%;
+    }
+}
+
+
+
+body {
+    background: linear-gradient(-45deg,
+    #7f4d4d, #6b5a55, #7f5d43, #6d2f3e,
+    #3f5467, #5e5c67, #7f5f53, #4d6e62,
+    #6a2e2e, #6a4c39, #104740, #6a3b2d,
+    #1e2e5b, #1f6c5a, #4d5c5b, #17476a,
+    #6a4c0a, #6f5f53, #6a4c08, #6f2a10,
+    #6e2b2b, #3f1d4a, #005b54, #11864a
+);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+
+
+
+
+@media (max-width: 480px) {
+    table {
+        width: 100%; /* Table width */
+        padding: 0; /* Remove padding for smaller screens */
+    }
+
+    body {
+        padding: 0; /* Remove padding on very small screens */
+    }
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    th, td {
+        font-size: 12px;
+    }
+
+
+    form, #comments-section {
+        width: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+
+

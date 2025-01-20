@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fall Events</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+
+    <nav>
+        <a href="#">Home</a>
+        <a class="boutta" href="{% url 'about' %}">About</a>
+        <a href="#">Events</a>
+        <a href="#">Contact</a>
+        <a href="#">Help</a>
+        <a href="{% url 'schedule_view' %}">Weekly Schedule</a> <!-- Link to the main page -->
+    </nav>
+
+    <h1>Fall Events</h1>
+    <table id="fall-events">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th>Location</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in fall_events %}
+                <tr>
+                    <td>{{ event.date }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.location }}</td>
+                    <td>{{ event.time }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Add Fall Event</h2> <!-- Heading for the form -->
+    <form id="fall-event-form">
+        <input type="text" id="fall-event-name" placeholder="Event Name" required>
+        <input type="date" id="fall-event-date" required>
+        <input type="text" id="fall-event-location" placeholder="Location" required>
+        <input type="text" id="fall-event-time" placeholder="Time" required>
+        <button type="submit">Add Event</button>
+    </form>
+
+    <!-- Section for Comments -->
+
+    <div id="comments-section">
+        <h2>Comments</h2>
+        <div id="comment-form">
+            <form class="comform" method="POST">
+                {% csrf_token %}
+                <label for="id_nickname">Nickname:</label>
+                <input type="text" id="id_nickname" name="nickname" placeholder="Your nickname" required>
+                <label for="id_comment">Comment:</label>
+                <textarea class="comtext" id="id_comment" name="comment" placeholder="Your comment" rows="2" required></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+        <div id="comment-list">
+            {% for comment in comments %}
+                <div class="comment">
+                    <strong>{{ comment.nickname }}</strong> - {{ comment.created_at|date:"F j, Y, g:i a" }}<br>
+                    {{ comment.comment }}
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Fetch and display fall events
+            const events = await fetchFallEvents();
+
+            // Display fall events in the table
+            const eventTable = document.querySelector('#fall-events tbody');
+            events.forEach(event => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${event.date}</td>
+                    <td>${event.name}</td>
+                    <td>${event.location}</td>
+                    <td>${event.time}</td>
+                `;
+                eventTable.appendChild(row);
+            });
+
+            // Handle fall event form submission
+            document.getElementById('fall-event-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('fall-event-name').value;
+                const date = document.getElementById('fall-event-date').value;
+                const location = document.getElementById('fall-event-location').value;
+                const time = document.getElementById('fall-event-time').value;
+
+                const eventData = { name, date, location, time };
+                await addFallEvent(eventData);
+                location.reload(); // Reload to fetch updated events
+            });
+        });
+
+        // Fetch existing fall events from the API
+        async function fetchFallEvents() {
+            const response = await fetch('/api/fall_events/');
+            return response.json();
+        }
+
+        // Add a new fall event to the API
+        async function addFallEvent(eventData) {
+            const response = await fetch('/api/fall_events/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(eventData),
+            });
+            return response.json();
+        }
+    </script>
+</body>
+</html>

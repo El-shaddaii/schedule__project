@@ -1,0 +1,452 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="abm.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>All about me</title>
+
+<style>
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f8ff; /* Light color for bright background */
+    color: #333;
+    animation: backgroundAnimation 10s infinite alternate; /* Animation for background color */
+}
+
+@keyframes backgroundAnimation {
+    0% { background-color: #f0f8ff; }
+    100% { background-color: #e6e6fa; }
+}
+
+/* Navigation styles */
+nav {
+    background-color: rgb(0, 0, 0); /* Tomato color for bright nav background */
+    padding: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: navAnimation 2s ease-in-out;
+}
+
+@keyframes navAnimation {
+    0% { transform: translateY(-10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+ul.ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+
+li.li {
+    margin-right: 20px;
+}
+
+.navi {
+    color: white;
+    text-decoration: none;
+    padding: 15px 25px;
+    transition: background-color 0.3s, transform 0.3s;
+    border-radius: 5px;
+}
+
+.navi:hover {
+    background-color: #ff4500; /* OrangeRed for hover effect */
+    transform: scale(1.1); /* Slight scale on hover */
+}
+
+/* Header section styles */
+header {
+    text-align: center;
+    padding: 70px 20px;
+    background: linear-gradient(45deg, #ffcccb, #ffebcd); /* Gradient background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom: 5px solid #ff4500;
+}
+
+.hero1 {
+    max-width: 800px;
+    margin: auto;
+    animation: fadeIn 2s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.heropic {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px; /* More rounded corners */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.heropic:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+}
+
+/* Main content section */
+section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 50px 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+article {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+p.p1 {
+    margin-bottom: 20px;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+/* Sidebar styles */
+aside {
+    width: 30%;
+    padding-left: 20px;
+}
+
+.a1 {
+    background-color: #ffebcd; /* BlanchedAlmond for sidebar background */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.a2 {
+    background-color: #f0f8ff; /* LightSkyBlue for item background */
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.side {
+    color: #ff4500; /* OrangeRed for link color */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.side:hover {
+    color: #ff6347; /* Tomato color on hover */
+}
+
+.map1 {
+    width: 100%;
+    height: 250px; /* Increased height for better visibility */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: mapAnimation 2s ease-in-out;
+}
+
+@keyframes mapAnimation {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Footer section */
+footer {
+    background-color: #2c3e50; /* Dark color for footer background */
+    color: #ecf0f1; /* Light color for text */
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Three columns layout */
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
+    border-top: 5px solid #3498db; /* Blue color for top border */
+}
+
+footer .logo {
+    width: 120px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    grid-column: 1 / 2; /* Align to the first column */
+    animation: spin 10s linear infinite; /* Add continuous spinning animation */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+footer .logo:hover {
+    transform: scale(1.1); /* Scale effect on hover */
+    /* The logo will spin continuously, so no need for additional rotate on hover */
+}
+
+footer .social-media {
+    grid-column: 2 / 3; /* Center column for social media links */
+    text-align: center;
+}
+
+footer .social-media p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+footer .social-media img.lg {
+    width: 24px;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+footer .feedback {
+    grid-column: 3 / 4; /* Align to the third column */
+    text-align: center;
+}
+
+footer textarea#feed {
+    width: 100%;
+    max-width: 280px; /* Adjust max-width as needed */
+    padding: 15px;
+    border: 1px solid #3498db;
+    border-radius: 10px;
+    resize: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #ecf0f1; /* Light background for textarea */
+    color: #333; /* Dark text color for better readability */
+}
+
+footer textarea#feed:focus {
+    border-color: #2980b9; /* Darker blue on focus */
+    box-shadow: 0 0 8px rgba(41, 128, 185, 0.5);
+    outline: none;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+        grid-template-areas:
+            "logo"
+            "social-media"
+            "feedback";
+    }
+
+    footer .logo {
+        grid-area: logo;
+        margin-bottom: 20px;
+    }
+
+    footer .social-media {
+        grid-area: social-media;
+    }
+
+    footer .feedback {
+        grid-area: feedback;
+        margin-top: 20px;
+    }
+
+    header {
+        padding: 40px 20px;
+    }
+
+    .hero1 {
+        padding: 0 10px;
+    }
+
+    .heropic {
+        max-width: 250px;
+    }
+
+    aside {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .map1 {
+        height: 200px;
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+    .ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .li {
+        margin: 10px 0;
+    }
+
+    .hero1 {
+        text-align: center;
+    }
+
+    .heropic {
+        order: 0;
+    }
+
+    section {
+        flex-direction: column;
+    }
+
+    aside {
+        width: 100%;
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .navi {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .hero1 {
+        padding: 0 10px;
+    }
+
+    .heropic {
+        max-width: 200px;
+    }
+
+    .logo {
+        width: 90px;
+    }
+
+    #feed {
+        width: 90%;
+    }
+}
+
+
+</style>
+</head>
+
+<body>
+
+	<a id="home"></a><nav>
+		<ul class="ul">
+			<li class="li"><a class="navi" href="{% url 'schedule-view' %}">Home</a></li>
+			<li class="li"><a class="navi" href="#about">About</a></li>
+			<li class="li"><a class="navi" href="#contact">Contact Info</a></li>
+			<li class="li2"><a class="navi" href="#sign">Sign Up to be a top fan!</a> </li>
+		</ul>
+	</nav>
+
+	<header>
+
+		<section class="first">
+
+		  	<div class="hero1"><h2 class="all">All about me</h2>
+				<p class="p1">You are welcome to my page. This page is for class project purposes only. Eitherway, this page comprises of, not limited to, who I am, what I do, and my ambitions and aspirations e.t.c. Feel free to feed me back with questions or comments regarding any information you see on this page. Thank you for visiting.</p>
+			</div>
+
+			<div class="hero2"> <img class="heropic" src="{% static 'images/Haloimage.jpeg' %}" alt="Halo Image">
+
+			</div>
+
+		</section>
+
+	</header>
+
+
+
+	<section>
+
+		<article>
+			<div>
+				<a id="about"><h2>I Like Computer Science. Here's Why...</h2></a><br>
+
+
+				<p class="p1">Computer science captivates me for its boundless creativity and problem-solving potential. It's like being handed the keys to a universe where imagination meets logic, and every line of code is a brushstroke on the canvas of innovation.<br><br>
+
+
+				Computer science is not merely about writing code; it's about crafting solutions to real-world problems. Whether it's revolutionizing healthcare with predictive analytics, empowering education through interactive learning platforms, or driving sustainable practices with smart technologies, the impact of computer science permeates every aspect of modern life.</p>
+			</div>
+
+
+			<div>
+				<h2>I Like Playing Musical Instruments. Here's Why...</h2><br>
+
+
+				<p class="p1">Music offers a unique outlet for self-expression. When you play an instrument, you're able to convey your emotions, thoughts, and creativity in a powerful and meaningful way. Whether you're composing your own pieces or interpreting existing ones, music becomes a medium through which you can articulate your innermost feelings.<br><br>
+
+
+				Learning to play a musical instrument requires dedication, practice, and patience. As you progress and master new techniques, you experience a profound sense of achievement and pride in your accomplishments. The process of overcoming challenges and seeing tangible improvements in your skills can be incredibly gratifying.</p>
+			</div>
+
+			<div>
+				<h2>I Am a Calm, Introverted, And Open-Minded Person. Here's Why...</h2><br>
+
+
+				<p class="p1">Introverted individuals often have a rich inner world and are adept at deep thinking and reflection. They tend to process information internally and thoroughly analyze situations before forming opinions or making decisions. This introspective nature can lead to insightful perspectives and well-thought-out solutions to problems.<br><br>
+
+
+				Open-minded people are flexible and adaptable in their thinking. They are willing to consider alternative viewpoints and adjust their beliefs or opinions in light of new information. This adaptability allows them to navigate change more effectively and thrive in diverse environments.</p>
+			</div>
+
+		</article>
+
+
+		<aside>
+			<div class="a1">
+			<h3>OTHER WORKS</h3>
+			</div>
+			<div class="a2"><h3><a class="side" href="ElsSchedule.html">El's Schedule</a></h3><p>This is my weekly schedule for work, school, study and church</p></div>
+			<div class="a2"><h3><a class="side" href="HealthyHabits.html">Healthy Habits</a> </h3><p>A combination of physical, mental, and emotional practices that contribute to overall wellbeing</p></div>
+			<div class="a2"><h3><a class="side" href="Forms.html">Registration Form</a></h3><p>Register here if you want to be an officail fan of my work.</p></div>
+			<div class="a2"><h3><a class="side" href="main2.html">Music Page</a> </h3><p>Explore the music side of me; how i started and where I am in my music carrer</p></div>
+			<div class="a1">
+			<h3>ADDRESSES</h3>
+			</div>
+			<div class="map"><iframe class="map1" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2955.015542691194!2d-85.60696802450053!3d42.21411244431066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x881775f5a8c871b9%3A0x2c28b5e1f575b451!2s7099%20Leslee%20St%2C%20Portage%2C%20MI%2049024!5e0!3m2!1sen!2sus!4v1713666234594!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+			</div>
+		</aside>
+	</section>
+
+
+
+	<footer>
+    <div class="logo-container">
+        <img class="logo" src="{% static 'images/Foreign.jpg' %}" alt="logo">
+    </div>
+    <div class="social-media">
+        <p>Connect with me:</p>
+        <img class="lg" src="{% static 'images/whatsap.jpg' %}" alt="whatsapp"> +1 269-615-1982<br>
+        <img class="lg" src="{% static 'images/insta.jpg' %}" alt="instagram"> @elshaddai_dadin<br>
+        <img class="lg" src="{% static 'images/fb.jpg' %}" alt="facebook"> El-shaddai Dadin<br>
+        <img class="lg" src="{% static 'images/YT-logo.png' %}" alt="youtube"> Elshaddai Mhango
+    </div>
+    <div class="feedback">
+        <textarea id="feed" name="feedabck" rows="6" cols="25">Go back to the Home page to submit any important Feedback...</textarea>
+    </div>
+</footer>
+
+
+</body>
+</html>
